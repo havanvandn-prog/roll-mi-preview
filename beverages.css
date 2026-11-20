@@ -1,0 +1,434 @@
+.beverages {
+  --beverage-edge: max(var(--rm-gutter), calc((100vw - var(--rm-container)) / 2));
+  background: var(--rm-paper);
+  color: var(--rm-body);
+  overflow: clip;
+}
+
+.beverage-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
+  grid-template-areas: "intro showcase" "list showcase" "gallery gallery";
+  grid-template-rows: auto 1fr auto;
+  gap: var(--rm-section-content-gap) var(--rm-column-gap);
+  isolation: isolate;
+}
+
+.beverage-intro { grid-area: intro; }
+
+.beverage-intro .beverage-lead {
+  max-width: 47ch;
+  color: var(--rm-ink);
+  font-size: var(--rm-lead);
+  font-weight: var(--rm-weight-label);
+  line-height: 1.28;
+}
+
+.beverage-summary {
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--rm-gutter));
+}
+
+.beverage-list {
+  grid-area: list;
+  align-self: start;
+  display: grid;
+  max-width: 29rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.beverage-list button {
+  display: grid;
+  grid-template-columns: 2ch auto minmax(var(--rm-space-3), 1fr);
+  align-items: center;
+  gap: var(--rm-space-3);
+  width: 100%;
+  min-height: var(--rm-button-min-height);
+  padding: var(--rm-space-1) 0;
+  border: 0;
+  background: transparent;
+  color: var(--rm-ink);
+  font: var(--rm-weight-label) var(--rm-text-small)/var(--rm-leading-small) var(--rm-font-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.beverage-list button > strong {
+  font-weight: var(--rm-weight-label);
+}
+
+.beverage-list button > span {
+  color: var(--rm-brown);
+  font-variant-numeric: tabular-nums;
+}
+
+.beverage-list button::after {
+  content: "";
+  height: var(--rm-rule-width);
+  background: var(--rm-line);
+  transition: background-color var(--rm-motion-duration);
+}
+
+.beverage-list button:is([aria-pressed="true"], :hover)::after { background: var(--rm-brown); }
+.beverage-list button[aria-pressed="true"] strong { text-decoration: underline; text-underline-offset: .19em; }
+
+.beverage-showcase {
+  --beverage-showcase-lift: var(--rm-space-4);
+  grid-area: showcase;
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: clamp(480px, 41vw, 575px);
+}
+
+.beverage-scene {
+  --cup-center: 58.6%;
+  --cup-seat: 28.3%;
+  --coaster-scale: 1;
+  --prop-scale: 1.4;
+  --glass-reference-ratio: .6144736842; /* 467 × 760 Watermelon Lychee asset */
+  position: absolute;
+  container-type: inline-size;
+  z-index: -1;
+  inset: calc(-1 * var(--rm-section-padding)) calc(-1 * var(--beverage-edge)) 0
+    clamp(-18%, calc(1450px - 100vw), 0px);
+  pointer-events: none;
+}
+
+.beverage-background {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  scale: 1.15;
+  transform-origin: right center;
+  mask-image: linear-gradient(to right, transparent, #000 28%), linear-gradient(to top, transparent, #000 17%);
+  mask-composite: intersect;
+}
+
+.beverage-display {
+  position: absolute;
+  inset: 0;
+  translate: calc(-1 * var(--beverage-display-shift, 0px))
+    calc(var(--beverage-display-offset, 0px) - var(--beverage-showcase-lift));
+}
+
+.beverage-coaster {
+  position: absolute;
+  left: var(--cup-center);
+  bottom: var(--cup-seat);
+  width: 51.5%;
+  height: auto;
+  /* Align the cup with the center of the wood, excluding the shadow to the left. */
+  translate: -55% 40%;
+  transform-origin: 55% 60%;
+  scale: var(--coaster-scale);
+}
+
+.beverage-cup {
+  position: absolute;
+  bottom: var(--cup-seat);
+  left: var(--cup-center);
+  width: 38%;
+  height: 67%;
+  container-type: size;
+  translate: -50% 0;
+  transform-origin: center bottom;
+}
+
+/* Fit the Watermelon Lychee reference first, then match each visible glass body. */
+.beverage-cup img {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: auto;
+  max-width: none;
+  height: min(100%, calc(100cqw / var(--glass-reference-ratio)));
+  translate: var(--glass-offset, -50%) 0;
+  scale: var(--glass-scale, 1);
+  transform-origin: center bottom;
+}
+
+.beverage-scene[data-drink="peach-hibiscus"] { --glass-scale: .95; }
+.beverage-scene[data-drink="strawberry-banana"] { --glass-scale: .83; --glass-shadow-width: 20%; }
+.beverage-scene[data-drink="matcha-latte"] { --glass-scale: .85; }
+.beverage-scene[data-drink="orange-cocoa"] { --glass-scale: .87; --glass-offset: -54%; --glass-shadow-width: 22%; }
+.beverage-scene[data-drink="green-sticky-rice-coffee"] { --glass-scale: .81; --glass-shadow-width: 20%; }
+.beverage-scene[data-drink="cold-brew"] { --glass-scale: .97; --glass-shadow-width: 21%; }
+
+.beverage-props img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.beverage-shadow {
+  position: absolute;
+  bottom: calc(var(--cup-seat) - 1.3%);
+  left: var(--cup-center);
+  width: var(--glass-shadow-width, 24%);
+  height: 4.8%;
+  translate: -66% 0;
+  transform-origin: 66% 72%;
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(ellipse 34% 25% at 66% 71%, rgb(51 25 12 / .68), transparent),
+    radial-gradient(ellipse 48% 45% at 49% 52%, rgb(71 43 27 / .35), transparent);
+}
+
+.beverage-props {
+  position: absolute;
+  /* The front of the wood sits about 5% of the scene width below the cup seat. */
+  bottom: calc(var(--cup-seat) - 5cqw * var(--coaster-scale) - var(--rm-space-2));
+  left: 41%;
+  width: 16%;
+  height: 14%;
+  translate: -50% 0;
+  scale: var(--prop-scale);
+  transform-origin: center bottom;
+}
+
+.beverage-props img {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(-1px 2px 1px rgb(71 43 27 / .31)) drop-shadow(-4px 3px 3px rgb(71 43 27 / .24));
+}
+
+.beverage-description {
+  display: grid;
+  justify-items: start;
+  gap: var(--rm-space-2);
+  width: 40%;
+  align-self: center;
+  translate: 0 calc(var(--beverage-description-offset, var(--rm-space-2)) - var(--beverage-showcase-lift));
+}
+
+.beverage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rm-space-3);
+  color: var(--rm-brown);
+  font: var(--rm-weight-label) var(--rm-text-small)/var(--rm-leading-small) var(--rm-font-body);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.beverage-badge::after {
+  content: "";
+  width: var(--rm-space-10);
+  height: var(--rm-rule-width);
+  background: var(--rm-line);
+}
+
+.beverage-description h3 {
+  font-weight: var(--rm-weight-label);
+}
+
+.beverage-description p { font-size: var(--rm-text-small); line-height: var(--rm-leading-small); }
+
+.beverage-gesture {
+  position: relative;
+  justify-self: start;
+  width: clamp(46px, 7vw, 95px);
+  height: var(--rm-space-6);
+  margin: var(--rm-space-2) 0 0 var(--rm-space-6);
+  border-block-end: 2px solid currentColor;
+  border-radius: 0 0 70% 65%;
+  color: var(--rm-brown);
+  rotate: 12deg;
+}
+
+.beverage-gesture::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  width: var(--rm-space-3);
+  aspect-ratio: 1;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  rotate: 20deg;
+}
+
+.beverage-gallery:not([hidden]) {
+  display: grid;
+  grid-area: gallery;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--rm-space-3);
+}
+
+.beverage-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 6 * var(--rm-space-2)) / 7);
+  gap: var(--rm-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.beverage-thumbnail {
+  --thumbnail-image-height: clamp(84px, 10vw, 143px);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: var(--thumbnail-image-height) auto;
+  align-content: start;
+  justify-items: center;
+  gap: var(--rm-caption-gap);
+  scroll-snap-align: start;
+  min-width: 0;
+  min-height: var(--rm-button-min-height);
+  padding: var(--rm-space-2) var(--rm-space-1);
+  border: 0;
+  background: transparent;
+  color: var(--rm-ink);
+  font: var(--rm-weight-label) var(--rm-text-small)/var(--rm-leading-small) var(--rm-font-body);
+  text-align: center;
+  cursor: pointer;
+}
+
+.beverage-thumbnail::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(var(--thumbnail-image-height) - 6px);
+  left: 12%;
+  width: 86%;
+  height: var(--rm-space-5);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 30% at 44% 67%, color-mix(in srgb, var(--rm-brown) 29%, transparent), transparent),
+    radial-gradient(ellipse 43% 49% at 61% 52%, color-mix(in srgb, var(--rm-brown) 23%, transparent), transparent);
+}
+
+.beverage-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  scale: var(--thumbnail-scale, 1);
+  transform-origin: center bottom;
+}
+
+.beverage-thumbnail[data-drink="watermelon-lychee"] { --thumbnail-scale: 1.05; }
+.beverage-thumbnail[data-drink="orange-cocoa"] { --thumbnail-scale: 1.06; }
+.beverage-thumbnail[data-drink="green-sticky-rice-coffee"] { --thumbnail-scale: .92; }
+
+.beverage-thumbnail:is(:hover, [aria-pressed="true"]) span { text-decoration: underline; text-underline-offset: .19em; }
+.beverage-thumbnail:focus-visible { outline-offset: -3px; }
+
+.beverage-nav {
+  display: grid;
+  place-items: center;
+  width: var(--rm-button-min-height);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--rm-brown);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rm-ink);
+  cursor: pointer;
+  transition: filter var(--rm-motion-duration);
+}
+
+.beverage-nav[data-step="1"] { background: var(--rm-brown); color: var(--rm-cream); }
+.beverage-nav:hover { filter: brightness(.82); }
+.beverage-nav:focus-visible { outline-color: var(--rm-ink); }
+.beverage-nav span {
+  width: 10px;
+  height: 10px;
+  border-block-start: 2px solid;
+  border-inline-end: 2px solid;
+  rotate: 45deg;
+  translate: -2px 0;
+}
+.beverage-nav[data-step="-1"] span { rotate: -135deg; translate: 2px 0; }
+
+@media (width >= 768px) {
+  .beverage-gesture { inset-inline-start: var(--beverage-gesture-shift, 67px); }
+}
+
+@media (width >= 1024px) {
+  .beverage-scene { --beverage-display-shift: clamp(24px, 30vw - 282px, 150px); }
+
+  .beverage-cup,
+  .beverage-shadow { scale: .85; }
+
+  .beverage-props { scale: calc(var(--prop-scale) * .85); }
+  .beverage-description {
+    width: min(36%, 11.5rem);
+    --beverage-description-offset: var(--rm-space-4);
+  }
+
+  .beverage-scene[data-drink="orange-cocoa"] ~ .beverage-description {
+    --beverage-gesture-shift: 28px;
+    width: min(36%, 9.5rem);
+  }
+}
+
+@media (width >= 1150px) {
+  .beverage-description { margin-inline-start: calc(-1 * var(--rm-space-4)); }
+}
+
+@media (768px <= width < 1150px) {
+  .beverage-layout { grid-template-columns: minmax(0, 38fr) minmax(0, 62fr); }
+  .beverage-description { width: 36%; }
+  .beverage-rail { grid-auto-columns: calc((100% - 4 * var(--rm-space-2)) / 5); }
+}
+
+@media (width < 1024px) {
+  .beverage-scene[data-drink="orange-cocoa"] { --glass-scale: .77; --glass-offset: -50%; }
+}
+
+@media (1024px <= width < 1150px) {
+  .beverage-description { margin-block-start: var(--rm-space-12); }
+}
+
+@media (768px <= width < 1024px) {
+  .beverage-layout {
+    grid-template-areas: "intro intro" "list showcase" "gallery gallery";
+    grid-template-rows: auto auto auto;
+  }
+  .beverage-scene { inset-block-start: 0; }
+  .beverage-background {
+    mask-image: linear-gradient(to right, transparent, #000 28%), linear-gradient(to top, transparent, #000 17%, #000 90%, transparent);
+  }
+}
+
+@media (width < 768px) {
+  .beverage-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "intro" "showcase" "gallery" "list";
+    grid-template-rows: auto;
+  }
+  .beverage-showcase {
+    --beverage-showcase-lift: var(--rm-space-2);
+    min-height: clamp(285px, 76vw, 425px);
+  }
+  .beverage-scene { inset: 0 calc(-1 * var(--rm-gutter)) 0 0; }
+  .beverage-background {
+    mask-image: linear-gradient(to right, transparent, #000 36%), linear-gradient(to top, transparent, #000 18%, #000 85%, transparent);
+  }
+  .beverage-cup { width: 34%; }
+  .beverage-props { left: 47%; }
+  .beverage-description { width: 39%; }
+  .beverage-badge { gap: var(--rm-space-2); }
+  .beverage-badge::after { width: var(--rm-space-4); }
+  .beverage-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--rm-space-4);
+    max-width: none;
+  }
+  .beverage-list button {
+    grid-template-columns: 2ch minmax(0, 1fr);
+    gap: var(--rm-space-2);
+    min-height: var(--rm-space-14);
+  }
+  .beverage-list button::after { display: none; }
+  .beverage-gallery:not([hidden]) { gap: var(--rm-space-2); }
+  .beverage-rail { grid-auto-columns: calc((100% - var(--rm-space-2)) / 2); }
+}

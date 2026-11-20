@@ -1,0 +1,99 @@
+html:has(.menu-book[open]) { overflow: hidden; }
+
+.menu-book {
+  --menu-book-top: 0px;
+  --menu-book-height: calc(100dvh - var(--menu-book-top) - var(--rm-space-4));
+  position: fixed;
+  inset: var(--menu-book-top) 0 0;
+  width: calc(100% - var(--rm-space-4));
+  max-width: none;
+  max-height: var(--menu-book-height);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  background: transparent;
+  color: var(--rm-cream);
+}
+
+.menu-book::backdrop { background: rgb(0 0 0 / 80%); }
+
+@media (aspect-ratio <= 9/10) {
+  .menu-book { --menu-book-top: calc(var(--rm-button-min-height) + var(--rm-space-2)); }
+}
+
+.menu-book-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rm-space-1);
+  margin-block-start: var(--rm-space-1);
+}
+
+.menu-book-control {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: var(--rm-button-min-height);
+  height: var(--rm-button-min-height);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rm-cream);
+  font: 1.125rem/1 var(--rm-font-body);
+  cursor: pointer;
+}
+
+.menu-book-control::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: var(--rm-space-2);
+  border: var(--rm-rule-width) solid var(--rm-cream);
+  border-radius: inherit;
+  background: var(--rm-brown-dark);
+}
+
+.menu-book-control:focus-visible { outline: none; }
+.menu-book-control:focus-visible::before {
+  outline: 2px solid var(--rm-cream);
+  outline-offset: 2px;
+}
+
+.menu-book-close {
+  position: fixed;
+  z-index: 2;
+  inset-block-start: var(--rm-space-2);
+  inset-inline-end: var(--rm-space-2);
+}
+
+.menu-book-control[aria-disabled="true"] { opacity: .5; cursor: default; }
+
+.menu-book-sheet {
+  position: relative;
+  width: min(100%, max(0px, calc((var(--menu-book-height) - var(--rm-button-min-height) - var(--rm-space-1)) * 1800 / 2546)));
+  aspect-ratio: 1800 / 2546;
+  margin-inline: auto;
+  perspective: 1400px;
+  background: var(--rm-paper-warm);
+}
+
+.menu-book-sheet img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: left center;
+}
+
+.menu-book-sheet img[hidden] { display: none; }
+
+.menu-book-status {
+  text-align: center;
+  font-size: var(--rm-text-small);
+  overflow-wrap: anywhere;
+}

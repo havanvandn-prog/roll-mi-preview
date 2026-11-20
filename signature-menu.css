@@ -1,0 +1,242 @@
+.signature-menu {
+  --signature-slide-width: min(26vw, 436px);
+  --signature-track-gap: var(--rm-space-6);
+  --signature-arrow-scale: 1.1;
+  --signature-arrow-size: calc(var(--rm-button-min-height) * var(--signature-arrow-scale));
+  display: grid;
+  grid-template-columns: minmax(var(--rm-gutter), 1fr) minmax(0, var(--rm-container)) minmax(var(--rm-gutter), 1fr);
+  row-gap: var(--rm-space-4);
+  background: var(--rm-paper-sand);
+  color: var(--rm-ink);
+}
+
+.signature-head {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+  margin-block-end: calc(var(--rm-section-content-gap) - var(--rm-space-4));
+}
+
+.signature-head p { margin-inline: auto; }
+
+.signature-arrows:not([hidden]) { display: flex; }
+
+.signature-arrows {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: center;
+  gap: calc(var(--rm-space-3) * var(--signature-arrow-scale));
+}
+
+.signature-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: var(--signature-arrow-size);
+  height: var(--signature-arrow-size);
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rm-brown-dark);
+  cursor: pointer;
+}
+
+.signature-arrow[data-direction="1"] {
+  background: var(--rm-brown-dark);
+  border-color: var(--rm-brown-dark);
+  color: white;
+}
+
+.signature-arrow span {
+  width: 14px;
+  height: 14px;
+  border: solid currentColor;
+  border-width: 3px 3px 0 0;
+  border-radius: 2px;
+  scale: var(--signature-arrow-scale);
+  transform: translateX(-2px) rotate(45deg);
+}
+
+.signature-arrow[data-direction="-1"] span { transform: translateX(2px) rotate(-135deg); }
+
+.signature-viewport {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: center;
+  width: min(var(--rm-signature-album-max), calc(100% - 2 * var(--rm-gutter)));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.signature-viewport:focus-visible { outline-offset: -4px; }
+.signature-menu[data-carousel-ready] .signature-viewport { scrollbar-width: none; }
+
+.signature-track {
+  position: relative;
+  display: flex;
+  gap: var(--signature-track-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signature-slide {
+  flex: 0 0 var(--signature-slide-width);
+  scroll-snap-align: start;
+}
+
+.signature-photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: clip;
+}
+
+.signature-photo img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 112%;
+  max-width: none;
+  height: auto;
+  translate: calc(-1 * var(--dish-x)) calc(-1 * var(--dish-y));
+}
+
+.signature-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.signature-photo-link { cursor: zoom-in; }
+.signature-photo-link:focus-visible { outline-offset: -4px; }
+
+.signature-photo-badge {
+  position: absolute;
+  inset-block-start: var(--rm-space-4);
+  inset-inline-start: var(--rm-space-4);
+  padding: var(--rm-space-1) var(--rm-space-3);
+  border: var(--rm-rule-width) solid var(--rm-brown-dark);
+  border-radius: 40% 34% 38% 30% / 55% 45% 55% 45%;
+  background: var(--rm-best-seller-gold);
+  box-shadow: 0 0 0 2px var(--rm-cream), 0 0 0 3px var(--rm-brown-dark);
+  color: var(--rm-brown-dark);
+  font: var(--rm-weight-display) var(--rm-text-small)/1.2 var(--rm-font-heading);
+}
+
+.signature-gallery-caption {
+  margin-block-start: var(--rm-caption-gap);
+  font: 700 clamp(1.125rem, 1.9vw, 2rem)/1.15 Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.signature-gallery-caption span {
+  display: block;
+  margin-block-start: var(--rm-space-1);
+  font-size: .7em;
+}
+
+@media (width >= 1024px) {
+  .signature-head p { max-width: none; }
+  .signature-gallery-caption { font-size: calc(clamp(1.125rem, 1.9vw, 2rem) * .85 * .9); }
+}
+
+html:has(.signature-lightbox[open]) { overflow: hidden; }
+
+.signature-lightbox[open] {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: #000;
+  color: var(--rm-cream);
+}
+
+.signature-lightbox-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.signature-lightbox-frame {
+  position: relative;
+  width: min(100cqw, calc(100cqh * var(--photo-ratio, 2 / 3)));
+  aspect-ratio: var(--photo-ratio, 2 / 3);
+}
+
+.signature-lightbox-frame > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.signature-lightbox-caption {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: var(--rm-space-3);
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--rm-space-2));
+  padding: var(--rm-space-1) var(--rm-space-2);
+  border-radius: var(--rm-space-1);
+  background: rgb(0 0 0 / 82%);
+  font-size: .875rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.signature-lightbox-control {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--rm-button-min-height);
+  height: var(--rm-button-min-height);
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 85%);
+  color: inherit;
+  font: 1.5rem/1 var(--rm-font-body);
+  cursor: pointer;
+}
+
+.signature-lightbox-close { inset: var(--rm-space-4) var(--rm-space-4) auto auto; }
+.signature-lightbox-prev, .signature-lightbox-next {
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  background: var(--rm-brown-dark);
+}
+.signature-lightbox-prev { inset-inline-start: var(--rm-space-4); }
+.signature-lightbox-next { inset-inline-end: var(--rm-space-4); }
+
+@media (width < 1024px) {
+  .signature-menu { --signature-slide-width: 37vw; }
+}
+
+@media (768px <= width < 1024px) {
+  .signature-arrows { justify-self: end; }
+}
+
+@media (width < 768px) {
+  .signature-menu {
+    --signature-slide-width: min(74vw, 350px);
+    --signature-track-gap: var(--rm-space-4);
+  }
+  .signature-head h2 span { display: block; }
+}

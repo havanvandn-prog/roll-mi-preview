@@ -1,0 +1,94 @@
+/* Roll Mi implementation values, see ../DESIGN_SYSTEM.md. */
+:root {
+  --rm-cream: #f8eedd;
+  --rm-paper: #f8efe3;
+  --rm-paper-warm: #f3e3cc;
+  --rm-paper-sand: #f2e5d2;
+  --rm-brown: #75482e;
+  --rm-brown-dark: #472b1b;
+  --rm-best-seller-gold: #f4c44e;
+  --rm-ink: #51240f;
+  --rm-body: #211a15;
+  --rm-line: #d7b997;
+
+  --rm-font-heading: "Baloo 2", var(--rm-font-display);
+  --rm-font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --rm-font-body: Inter, system-ui, sans-serif;
+  --rm-weight-display: 800;
+  --rm-weight-label: 700;
+  --rm-weight-body: 400;
+  --rm-h1: 4rem;
+  --rm-h2: 50px;
+  --rm-h3: 1.5rem;
+  --rm-lead: clamp(1.1875rem, 1rem + 0.5vw, 1.4375rem);
+  --rm-text: 1rem;
+  --rm-text-small: .875rem;
+  --rm-leading-h1: 1.1;
+  --rm-leading-h2: 1.1;
+  --rm-leading-h3: 1.35;
+  --rm-leading-body: 1.6;
+  --rm-leading-small: 1.5;
+
+  --rm-space-1: 4px;
+  --rm-space-2: 8px;
+  --rm-space-3: 12px;
+  --rm-space-4: 16px;
+  --rm-space-5: 20px;
+  --rm-space-6: 24px;
+  --rm-space-8: 32px;
+  --rm-space-10: 40px;
+  --rm-space-12: 48px;
+  --rm-space-14: 56px;
+  --rm-space-16: 64px;
+  --rm-space-18: 72px;
+  --rm-container: 1400px;
+  --rm-signature-album-max: 1400px;
+  --rm-gutter: 32px;
+  --rm-section-padding: 48px;
+  --rm-column-gap: 48px;
+  --rm-eyebrow-gap: var(--rm-space-3);
+  --rm-section-title-gap: 10px;
+  --rm-section-content-gap: var(--rm-space-8);
+  --rm-caption-gap: var(--rm-space-3);
+  --rm-button-radius: 13px;
+  --rm-image-radius: 0px;
+  --rm-button-min-height: 44px;
+  --rm-cta-min-height: 48px;
+  --rm-button-padding-x: 24px;
+  --rm-rule-width: 1px;
+  --rm-motion-duration: 180ms;
+}
+
+@media (768px <= width < 1024px) {
+  :root {
+    --rm-h1: 3rem;
+    --rm-h2: 2.25rem;
+    --rm-h3: 1.375rem;
+    --rm-leading-h1: 1.15;
+    --rm-leading-h2: 1.3;
+    --rm-gutter: 24px;
+    --rm-column-gap: 32px;
+    --rm-section-padding: 40px;
+  }
+}
+
+@media (width < 768px) {
+  :root {
+    --rm-h1: 2.5rem;
+    --rm-h2: 2.5rem;
+    --rm-h3: 1.375rem;
+    --rm-leading-h1: 1.2;
+    --rm-leading-h2: 1.1;
+    --rm-gutter: 20px;
+    --rm-column-gap: 24px;
+    --rm-section-padding: 36px;
+    --rm-eyebrow-gap: var(--rm-space-2);
+    --rm-section-title-gap: var(--rm-space-2);
+    --rm-section-content-gap: var(--rm-space-6);
+    --rm-caption-gap: var(--rm-space-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --rm-motion-duration: 0ms; }
+}

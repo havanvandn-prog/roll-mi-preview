@@ -1,0 +1,508 @@
+.boardgame {
+  position: relative;
+  container-type: inline-size;
+  overflow: clip;
+  padding-block: 0;
+  background: var(--rm-paper-sand);
+}
+
+.boardgame::before {
+  content: "";
+  position: absolute;
+  inset: auto auto 0 -74px;
+  width: 168px;
+  height: 83px;
+  pointer-events: none;
+  background: url("assets/boardgame/cabinet-reference-foreground.webp") left bottom / contain no-repeat;
+  opacity: .7;
+}
+
+.boardgame-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  align-items: center;
+  gap: var(--rm-column-gap);
+}
+
+.boardgame-copy {
+  position: relative;
+  min-width: 0;
+  padding-block: var(--rm-section-padding);
+}
+
+.boardgame-copy h2 {
+  max-width: 19ch;
+  text-wrap: balance;
+}
+
+.boardgame-details {
+  display: grid;
+  gap: var(--rm-space-3);
+  max-width: 540px;
+  padding: var(--rm-space-4) 25px;
+  margin-block: var(--rm-space-4);
+  border: 1px solid var(--rm-line);
+  border-radius: 15px;
+  background: var(--rm-paper);
+  list-style: none;
+}
+
+.boardgame-details li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-areas: "icon title" ". description";
+  column-gap: var(--rm-space-3);
+  row-gap: var(--rm-space-1);
+  align-items: center;
+}
+
+.boardgame-details li > div { display: contents; }
+
+.boardgame-details h3 {
+  grid-area: title;
+  font-family: var(--rm-font-body);
+  font-size: 1.25rem;
+  font-weight: var(--rm-weight-label);
+}
+
+.boardgame-details p { grid-area: description; font-size: var(--rm-text-small); line-height: var(--rm-leading-small); }
+
+.boardgame-icon {
+  grid-area: icon;
+  display: block;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  justify-self: center;
+  color: var(--rm-brown);
+}
+
+.boardgame-icon--people::before,
+.boardgame-icon--people::after,
+.boardgame-icon--cup::before,
+.boardgame-icon--cup::after,
+.boardgame-icon--clock::after { content: ""; position: absolute; }
+
+.boardgame-icon--people::before {
+  width: 7px;
+  height: 7px;
+  top: 1px;
+  left: 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  box-shadow: -7px 3px 0 -1px currentColor, 7px 3px 0 -1px currentColor;
+}
+
+.boardgame-icon--people::after {
+  width: 11px;
+  height: 10px;
+  left: 6px;
+  bottom: 2px;
+  border: 1.5px solid currentColor;
+  border-radius: 65% 65% 2px 2px;
+  box-shadow: -7px 0 0 -2px currentColor, 7px 0 0 -2px currentColor;
+}
+
+.boardgame-icon--cup {
+  height: 18px;
+  border-bottom: 1.5px solid currentColor;
+}
+
+.boardgame-icon--cup::before {
+  width: 16px;
+  height: 13px;
+  left: 1px;
+  top: 2px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px 2px 8px 8px;
+}
+
+.boardgame-icon--cup::after {
+  width: 7px;
+  height: 8px;
+  left: 15px;
+  top: 3px;
+  border: 1.5px solid currentColor;
+  border-radius: 0 6px 6px 0;
+}
+
+.boardgame-icon--clock {
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.boardgame-icon--clock::after {
+  inset: 4px auto auto 8px;
+  width: 6px;
+  height: 7px;
+  border-left: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(22deg);
+  transform-origin: left bottom;
+}
+
+.boardgame-directions {
+  background: var(--rm-brown-dark);
+  color: var(--rm-cream);
+}
+
+.boardgame-directions .directions-pin::after { background: var(--rm-brown-dark); }
+
+.boardgame-case {
+  --case-max-height: clamp(240px, 100dvh - var(--site-header-height) - var(--rm-space-6), 836px);
+  --case-rail: 49px;
+  --case-rim: clamp(23px, 3vw, 40px);
+  --shelf-min-row: clamp(120px, 31cqi, 192px);
+  --box-size-factor: calc(.9 * 1.15);
+  --box-side: calc(clamp(5px, 2.05cqi, 13px) * var(--box-size-factor));
+  --shelf-board: clamp(22px, 6.9cqi, 46px);
+  --case-top: clamp(32px, 4vw, 63px);
+  position: relative;
+  container-type: inline-size;
+  min-inline-size: 0;
+  max-block-size: var(--case-max-height);
+  align-self: stretch;
+  isolation: isolate;
+  padding-block-start: var(--case-top);
+  border-radius: 0;
+  background:
+    url("assets/boardgame/cabinet-reference-left.webp") left / var(--case-rim) 100% no-repeat,
+    url("assets/boardgame/cabinet-reference-right.webp") right / var(--case-rail) 100% no-repeat,
+    url("assets/boardgame/cabinet-reference-top.webp") left var(--case-rim) top / calc(100% - var(--case-rim) - var(--case-rail)) var(--case-top) no-repeat,
+    var(--rm-brown-dark);
+}
+
+.boardgame-case::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  inset-block: -12px auto;
+  inset-inline: clamp(-70px, -10cqi, -30px) auto;
+  width: clamp(112px, 33cqi, 218px);
+  height: 55%;
+  background: url("assets/boardgame/cabinet-reference-vine.webp") left top / contain no-repeat;
+  filter: drop-shadow(3px 4px 3px #37280745);
+}
+
+.boardgame-case::after {
+  --cabinet-foliage-width: clamp(200px, 48cqi, 340px);
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  inset-block-end: calc(-1 * var(--rm-space-4));
+  inset-inline-start: 0;
+  width: calc(var(--cabinet-foliage-width) * .85);
+  aspect-ratio: 800 / 333;
+  translate: -70% 0;
+  background: url("assets/boardgame/cabinet-foreground-foliage.webp") center / contain no-repeat;
+  filter: blur(clamp(1px, .38cqi, 2.5px));
+  mask-image: linear-gradient(to bottom, #000 84%, transparent);
+}
+
+.shelf-interior {
+  --row-share: 40;
+  /* Use the original row proportion as the baseline for the 15% box increase. */
+  --box-row-share: 31.8;
+  --row-height: calc(var(--row-share) * 1cqh);
+  --full-rows: 2;
+  --shelf-min-height: calc(3 * var(--shelf-min-row) + 18px);
+  position: relative;
+  margin-inline: var(--case-rim) var(--case-rail);
+  min-height: min(var(--shelf-min-height), var(--case-max-height) - var(--case-top));
+  height: 100%;
+  background: linear-gradient(90deg, #1e0d0480, transparent 18% 82%, #150a0480),
+    linear-gradient(#1b0c062e, #1b0c062e),
+    url("assets/boardgame/cabinet-reference-back.webp") center / 100% 100% no-repeat, var(--rm-brown-dark);
+  box-shadow: -1px 0 #3c1a07, 1px 0 #cf955c50, inset 0 13px 21px -14px #170802;
+}
+
+.shelf-interior::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  height: calc((100 - var(--full-rows) * var(--row-share)) * 1%);
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+  background: linear-gradient(transparent, #7c502b81);
+  mask-image: linear-gradient(transparent, #000 84%);
+}
+
+.shelf-scroll {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to bottom, #0007, #000 10px);
+}
+
+.shelf-scroll:focus-visible {
+  outline: 2px solid var(--rm-cream);
+  outline-offset: -3px;
+}
+
+.shelf-rows {
+  list-style: none;
+  padding: 0;
+  padding-block-end: calc(100cqh - var(--full-rows) * var(--row-height));
+}
+
+.shelf-scroll.is-dragging { scroll-snap-type: none; scroll-behavior: auto; }
+
+.shelf-row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+  justify-items: center;
+  gap: clamp(6px, 3cqi, 19px);
+  height: var(--row-height);
+  padding: 14px clamp(12px, 5.5cqi, 29px) calc(var(--shelf-board) * .64);
+  scroll-snap-align: start;
+}
+
+/* Each timber board stays attached to its row while the inside scrolls. */
+.shelf-row::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: var(--shelf-board);
+  pointer-events: none;
+  background: url("assets/boardgame/cabinet-reference-ledge.webp") center / 100% 100% no-repeat;
+  mask-image: linear-gradient(transparent, #000 24% 79%, transparent);
+}
+
+.game-box {
+  --box-height: calc((var(--box-row-share) * 1cqh - var(--shelf-board) * .75 - 12px) * min(1, var(--box-scale) * 1.4));
+  position: relative;
+  isolation: isolate;
+  width: calc(min(88%, var(--box-height) * var(--box-aspect)) * var(--box-size-factor));
+  aspect-ratio: var(--box-ratio);
+  display: block;
+  color: var(--rm-cream);
+  padding: 0;
+  border: 0;
+  border-radius: 1.5px;
+  background: none;
+  box-shadow: 4px 3px 4px -1px #100603d4, 9px 2px 13px #10060460;
+  cursor: pointer;
+  scroll-margin-block: 15px;
+  transition: transform 300ms cubic-bezier(.2, .7, .3, 1), box-shadow 300ms ease;
+}
+
+.game-box::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 100% 0;
+  height: var(--box-side);
+  z-index: -1;
+  border-radius: 1.5px 1.5px 0 0;
+  background: linear-gradient(180deg, #fff5, #ffffff10 40%, #1109054d), var(--box-color);
+  transform: skewX(-45deg);
+  transform-origin: left bottom;
+}
+
+.game-box-spine {
+  position: absolute;
+  z-index: -1;
+  left: 100%;
+  bottom: 0;
+  width: var(--box-side);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0 1px 1px 0;
+  transform: skewY(-45deg);
+  transform-origin: left bottom;
+  background: linear-gradient(90deg, #fff2, #08040142 19%, #0804018f), var(--box-color);
+  box-shadow: inset 1px 0 #fff2, inset -1px 0 #1c0a0750;
+  color: #fff7e8b8;
+  font: 700 clamp(4px, 1.35cqi, 8px)/1 var(--rm-font-display);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+.game-box:nth-child(even)::before {
+  transform: skewX(45deg);
+  transform-origin: right bottom;
+}
+
+.game-box:nth-child(even) .game-box-spine {
+  left: auto;
+  right: 100%;
+  transform: skewY(45deg);
+  transform-origin: right bottom;
+  background: linear-gradient(90deg, #08040191, #0804012b 79%, #fff3), var(--box-color);
+}
+
+.game-box img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+  position: relative;
+}
+
+.game-box::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 1px #fff7, inset 1px 0 #fff3, inset -1px 0 #32170677, inset 0 -1px 2px #160a07a8;
+  background: linear-gradient(150deg, #ffefcf20, transparent 38%, #2510091f);
+}
+
+.game-box--photo { box-shadow: none; }
+.game-box--photo img { filter: drop-shadow(2px 4px 5px #0d0706b3); }
+.game-box--photo::before, .game-box--photo::after { content: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .game-box:hover { transform: translateY(-4px) scale(1.02); box-shadow: 2px 8px 12px #0d0706bd; }
+  .game-box--photo:hover { box-shadow: none; }
+  .game-box--photo:hover img { filter: drop-shadow(2px 8px 7px #0d0706bd); }
+}
+
+.game-box[aria-pressed="true"] { outline: 2px solid var(--rm-line); outline-offset: 3px; }
+.game-box:focus-visible { outline: 2px dashed var(--rm-cream); outline-offset: 4px; }
+
+.shelf-controls {
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-end: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.shelf-arrow {
+  flex: 0 0 44px;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--rm-cream);
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.shelf-arrow::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  transform: translateY(3px) rotate(45deg);
+}
+
+.shelf-arrow--down::before { transform: translateY(-3px) rotate(225deg); }
+.shelf-arrow[aria-disabled="false"]:hover { background: #27140c52; }
+.shelf-arrow[aria-disabled="true"] { opacity: .5; cursor: default; }
+.shelf-arrow:focus-visible { outline-offset: -4px; }
+
+.shelf-progress {
+  position: relative;
+  flex: 1;
+  align-self: center;
+  width: 22px;
+  user-select: none;
+}
+
+.shelf-progress::before,
+.shelf-progress span {
+  position: absolute;
+  left: 8px;
+  width: 6px;
+  border-radius: 4px;
+}
+
+.shelf-progress::before {
+  content: "";
+  inset-block: 0;
+  background: #f8eedd35;
+}
+
+.shelf-progress span {
+  inset-block-start: var(--shelf-thumb-top, 0%);
+  height: var(--shelf-thumb-height, 30%);
+  background: var(--rm-cream);
+}
+
+@media (pointer: fine) {
+  .shelf-progress { pointer-events: auto; cursor: ns-resize; }
+}
+
+@media (width >= 768px) {
+  .boardgame { padding-block-start: var(--rm-space-3); }
+
+  .boardgame-case {
+    position: sticky;
+    inset-block-start: calc(var(--site-header-height) + var(--rm-space-6));
+  }
+}
+
+@media (width >= 1024px) {
+  .boardgame-layout {
+    --case-bleed: max(var(--rm-gutter), (100cqi - var(--rm-container)) / 2);
+    --case-track: calc((100% - var(--rm-column-gap)) * .43);
+    /* Include the portion outside the content gutter in the 10% increase. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, calc(var(--case-track) * 1.1 + var(--case-bleed) * .1));
+  }
+  .boardgame-case {
+    margin-inline-end: calc(-1 * var(--case-bleed));
+  }
+}
+
+@media (768px <= width < 1024px) {
+  .boardgame-layout { grid-template-columns: minmax(0, 45fr) minmax(0, 55fr); }
+}
+
+@media (width < 768px) {
+  .boardgame-layout { grid-template-columns: minmax(0, 1fr); }
+  .boardgame-copy { padding-block: var(--rm-section-padding) 0; }
+  .boardgame-case {
+    --case-rail: 45px;
+    --case-rim: 19px;
+    --case-top: 25px;
+    --shelf-min-row: clamp(106px, 36cqi, 176px);
+    width: min(calc(100cqi - 2 * var(--rm-space-2)), calc((100% - var(--rm-space-4)) * 1.1));
+    justify-self: center;
+    min-width: 0;
+  }
+  .boardgame::before { display: none; }
+  .boardgame-case::before { inset-block-start: -9px; inset-inline-start: -13px; width: 72px; height: 145px; }
+  .boardgame-case::after {
+    --cabinet-foliage-width: clamp(128px, 39cqi, 164px);
+    inset-block-end: calc(-1 * var(--rm-space-3));
+    inset-inline-start: -4px;
+    translate: none;
+  }
+  .shelf-interior {
+    --row-share: 41.85;
+    --box-row-share: 41.85;
+    --shelf-min-height: calc(2 * var(--shelf-min-row) + clamp(30px, 14cqi, 60px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-scroll { scroll-behavior: auto; scroll-snap-type: none; }
+  .game-box { transition: none; }
+  .game-box:hover { transform: none; }
+}
