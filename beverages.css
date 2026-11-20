@@ -375,7 +375,7 @@
     container-type: inline-size;
     inset-inline-start: clamp(0px, 100vw - 1450px, 18%);
     inset-inline-end: auto;
-    width: min(100%, 48vw + 85px, 780px);
+    width: min(100%, 690px);
   }
   .beverage-description { margin-inline-start: calc(-1 * var(--rm-space-4)); }
 }

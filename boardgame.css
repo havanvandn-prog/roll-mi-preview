@@ -460,11 +460,11 @@
 
 @media (width >= 1024px) {
   .boardgame-layout {
-    --case-width: min(43vw + 38px, 680px);
+    --case-width: min(43vw + 38px, 575px);
     grid-template-columns: minmax(0, 1fr) minmax(0, calc(var(--case-width) - var(--rm-gutter)));
   }
   .boardgame-case {
-    --case-max-height: clamp(240px, min(100dvh - var(--site-header-height) - var(--rm-space-6), 23vw + 322px), 680px);
+    --case-max-height: clamp(240px, 100dvh - var(--site-header-height) - var(--rm-space-6), 520px);
     margin-inline-end: calc(-1 * var(--rm-gutter));
   }
 }
