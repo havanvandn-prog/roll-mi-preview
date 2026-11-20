@@ -153,6 +153,7 @@ h2 + p { margin-block-start: var(--rm-section-title-gap); max-width: 52ch; }
 .visit-title-line { display: block; }
 @media (width >= 1024px) {
   .visit { grid-template-columns: minmax(580px, .92fr) minmax(0, 1fr); }
+  .visit-map { width: min(100%, 36vw + 92px, 580px); justify-self: end; }
 }
 .visit h2 + p { max-width: none; }
 .visit-map {

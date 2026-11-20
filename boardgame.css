@@ -460,13 +460,12 @@
 
 @media (width >= 1024px) {
   .boardgame-layout {
-    --case-bleed: max(var(--rm-gutter), (100cqi - var(--rm-container)) / 2);
-    --case-track: calc((100% - var(--rm-column-gap)) * .43);
-    /* Include the portion outside the content gutter in the 10% increase. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, calc(var(--case-track) * 1.1 + var(--case-bleed) * .1));
+    --case-width: min(43vw + 38px, 680px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, calc(var(--case-width) - var(--rm-gutter)));
   }
   .boardgame-case {
-    margin-inline-end: calc(-1 * var(--case-bleed));
+    --case-max-height: clamp(240px, min(100dvh - var(--site-header-height) - var(--rm-space-6), 23vw + 322px), 680px);
+    margin-inline-end: calc(-1 * var(--rm-gutter));
   }
 }
 
